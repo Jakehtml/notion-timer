@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Widget</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .timer {
+            text-align: center;
+        }
+        .timer h1 {
+            font-size: 5em;
+            margin: 0;
+        }
+        .timer button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .start {
+            background-color: #28a745;
+            color: white;
+        }
+        .reset {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <div>
+            <button onclick="setTimer(25)">25 Mins</button>
+            <button onclick="setTimer(15)">15 Mins</button>
+            <button onclick="setTimer(10)">10 Mins</button>
+            <button onclick="setTimer(5)">5 Mins</button>
+        </div>
+        <h1 id="time">00:00</h1>
+        <button class="start" onclick="startTimer()">Start</button>
+        <button class="reset" onclick="resetTimer()">Reset</button>
+    </div>
+    <script>
+        let timer;
+        let duration = 0;
+
+        function setTimer(minutes) {
+            duration = minutes * 60;
+            document.getElementById('time').innerText = formatTime(duration);
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                if (duration > 0) {
+                    duration--;
+                    document.getElementById('time').innerText = formatTime(duration);
+                } else {
+                    clearInterval(timer);
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            if (timer) clearInterval(timer);
+            duration = 0;
+            document.getElementById('time').innerText = "00:00";
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
